@@ -1,44 +1,22 @@
 {
-  "hook": {
-    "name": "Pre-commit quality gate",
-    "description": "Full quality check before any commit — linting, type checks, unit tests, security scan",
-    "event": "pre_commit",
-    "steps": [
-      {
-        "name": "Ruff lint",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && ruff check backend/ --output-format=concise"
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "quality-gate",
+      "description": "Full quality gate (ruff, ruff format --check, mypy --strict, unit tests with >= 80% coverage, security tests, bandit, frontend tsc). Kiro has no pre-commit trigger, so this runs when the agent finishes a turn, and only after you confirm. Read-only. Exits 3 on failure so it never starts another agent turn.",
+      "trigger": "Stop",
+      "action": {
+        "type": "command",
+        "command": "python scripts/hooks/check.py quality-gate"
       },
-      {
-        "name": "Ruff format check",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && ruff format backend/ --check"
-      },
-      {
-        "name": "mypy type check",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && mypy --strict backend/ --ignore-missing-imports"
-      },
-      {
-        "name": "Unit tests",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && pytest tests/unit/ -q --tb=short --cov=backend --cov-fail-under=80"
-      },
-      {
-        "name": "Security tests",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && pytest tests/security/ -q --tb=short"
-      },
-      {
-        "name": "Bandit",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && bandit -r backend/ -ll -f text"
-      },
-      {
-        "name": "Frontend type check",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}/frontend\" && npx tsc --noEmit"
+      "timeout": 1200,
+      "confirm": {
+        "question": "Run the full quality gate (lint, types, unit and security tests, bandit)? It takes several minutes.",
+        "options": [
+          { "id": "skip", "label": "Skip", "run": false },
+          { "id": "run", "label": "Run quality gate", "run": true }
+        ]
       }
-    ]
-  }
+    }
+  ]
 }

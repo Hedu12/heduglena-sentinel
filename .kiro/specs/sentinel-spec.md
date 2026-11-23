@@ -1,9 +1,12 @@
 # HEDUGLENA Sentinel — Project Specification
 
 **Version:** 0.1.0-draft  
-**Date:** 2025  
+**Date:** 2026 (created 2026-11-17)  
 **Hackathon:** Kiroween 2026  
-**Status:** Specification — no implementation yet
+**Status:** Master reference specification. The Kiro working spec is
+`.kiro/specs/heduglena-sentinel/` (`requirements.md`, `design.md`, `tasks.md`), which restates
+these requirements in EARS form and tracks implementation status. Neither relaxes the other: the
+stricter requirement applies.
 
 ---
 

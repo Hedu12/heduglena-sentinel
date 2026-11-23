@@ -1,26 +1,26 @@
 {
-  "hook": {
-    "name": "Security scan on response/AI changes",
-    "description": "Run bandit whenever response engine or AI pipeline files are saved",
-    "event": "file_save",
-    "filters": {
-      "file_patterns": [
-        "backend/response/**/*.py",
-        "backend/ai/**/*.py",
-        "backend/core/**/*.py"
-      ]
-    },
-    "steps": [
-      {
-        "name": "Bandit security scan",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && bandit -r \"${file}\" -ll -f text"
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "security-bandit-on-save",
+      "description": "After the agent saves or creates a file in the response, AI, explanation, threat or core packages, run bandit -ll on it. Read-only.",
+      "trigger": "PostFileSave",
+      "matcher": "(^|[\\\\/])backend[\\\\/](response|ai|explanation|threat|core)[\\\\/].+\\.py$",
+      "action": {
+        "type": "command",
+        "command": "python scripts/hooks/check.py security-file \"{{filePath}}\""
       },
-      {
-        "name": "Check for LIVE_ACTIONS guard",
-        "type": "prompt",
-        "prompt": "The file ${file} was saved. It is part of the response engine or AI pipeline. Check that: (1) any new action execution code path passes through ResponseGuard, (2) no subprocess/os.system calls use user-influenced arguments, (3) AI output is validated before storage. Report any violations found."
+      "timeout": 120
+    },
+    {
+      "name": "security-boundary-review",
+      "description": "Ask the agent to check the security boundaries after it creates or changes a security-sensitive backend file. Report only.",
+      "trigger": "PostFileSave",
+      "matcher": "(^|[\\\\/])backend[\\\\/](response|ai|explanation|threat|core)[\\\\/].+\\.py$",
+      "action": {
+        "type": "agent",
+        "prompt": "A security-sensitive backend file (response, AI, explanation, threat or core package) was just created or changed. Check the change and report any violation: (1) every response action still passes through ResponseGuard and is carried out only by SimulatedActionExecutor; (2) no subprocess, os.system or os.popen call uses user- or AI-influenced arguments; (3) AI output is validated by AIOutputValidator before storage or display and never reaches threat scoring, the defense state machine, ResponsePlanner, ResponseGuard or the executor; (4) the protected files backend/response/guard.py, backend/ai/validator.py, backend/threat/scorer.py, backend/threat/state_machine.py, backend/response/planner.py and backend/response/executor.py were not modified without Henok's explicit approval. Report findings only: do not edit any file in response to this hook."
       }
-    ]
-  }
+    }
+  ]
 }

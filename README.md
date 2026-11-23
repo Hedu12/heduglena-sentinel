@@ -5,6 +5,15 @@
 **Hackathon:** Kiroween 2026  
 **Status:** Active development
 
+> **Current build status (2026-11-20).** The backend security pipeline is implemented and
+> tested: telemetry, detection, threat scoring, the defense state machine, guarded simulated
+> response, incidents and the explanation-only AI layer. 2,011 backend tests pass. The running
+> application does not yet drive that pipeline and serves only `/health` and the read-only
+> incident and explanation routes. The runtime orchestrator, the remaining API, the demo
+> controls, the dashboard and a working Docker stack are **planned**. The quick-start, demo,
+> frontend-test and Playwright sections below describe the target build, not the current one.
+> See [`.kiro/specs/heduglena-sentinel/tasks.md`](.kiro/specs/heduglena-sentinel/tasks.md).
+
 ---
 
 ## What it does
@@ -175,7 +184,7 @@ Key variables:
 | Variable | Default | Description |
 |---|---|---|
 | `DEMO_MODE` | `true` | Enable demo injection endpoints |
-| `LIVE_ACTIONS` | `false` | Enable real OS-level response actions |
+| `LIVE_ACTIONS` | `false` | Reserved for future live actions. None are implemented: `true` logs a warning and every action stays simulated |
 | `AI_PROVIDER` | `null` | AI adapter: `null`, `ollama`, `openai` |
 | `OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama server URL |
 | `OPENAI_API_KEY` | — | Required if `AI_PROVIDER=openai` |
@@ -187,10 +196,10 @@ Key variables:
 
 ## Security notes
 
-- Real destructive OS actions are **disabled by default**. Set `LIVE_ACTIONS=true` only on a machine you control and understand the consequences.
-- The demo injection endpoint returns HTTP 403 when `DEMO_MODE=false`.
-- AI output is validated to strip shell commands and file paths before display.
-- No credentials or secrets are logged or returned by the API.
+- Every response action is **simulated**. `ResponseGuard` blocks live protective actions unless `LIVE_ACTIONS=true`, and the executor has no live handler, so nothing touches the firewall, processes or files even then.
+- The planned demo injection endpoints must return HTTP 403 when `DEMO_MODE=false` (not yet built).
+- AI output is validated before storage or display. If the validator would redact anything, such as a shell command or a file path, the whole answer is rejected and a deterministic fallback is shown. AI output never reaches scoring, the state machine or the response engine.
+- No credentials or secrets are returned by the API. API keys are held as secret values and are never echoed.
 
 ---
 
@@ -198,7 +207,12 @@ Key variables:
 
 | Document | Location |
 |---|---|
-| Full project specification | `.kiro/specs/sentinel-spec.md` |
+| Kiro spec: requirements (EARS) | `.kiro/specs/heduglena-sentinel/requirements.md` |
+| Kiro spec: design, security boundaries, protected files | `.kiro/specs/heduglena-sentinel/design.md` |
+| Kiro spec: implementation plan and status | `.kiro/specs/heduglena-sentinel/tasks.md` |
+| Master reference specification | `.kiro/specs/sentinel-spec.md` |
+| Kiro hooks (read-only checks) | `.kiro/hooks/*.json`, logic in `scripts/hooks/check.py` |
+| Readiness audit | `docs/hackathon/KIROWEEN_READINESS_AUDIT.md` |
 | Architecture principles | `.kiro/steering/architecture-principles.md` |
 | Coding standards | `.kiro/steering/coding-standards.md` |
 | Security requirements | `.kiro/steering/security-requirements.md` |

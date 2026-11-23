@@ -1,22 +1,16 @@
 {
-  "hook": {
-    "name": "Python file save checks",
-    "description": "Run ruff and mypy on every saved Python file",
-    "event": "file_save",
-    "filters": {
-      "file_patterns": ["**/*.py"]
-    },
-    "steps": [
-      {
-        "name": "Lint with ruff",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && ruff check \"${file}\" --output-format=concise"
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "python-save-checks",
+      "description": "After the agent saves or creates a backend Python file, run ruff check and (for source packages) mypy --strict on it. Read-only: never --fix or format. In Kiro IDE a file creation also fires PostFileSave, so no separate PostFileCreate hook is needed.",
+      "trigger": "PostFileSave",
+      "matcher": "(^|[\\\\/])backend[\\\\/].+\\.py$",
+      "action": {
+        "type": "command",
+        "command": "python scripts/hooks/check.py python-file \"{{filePath}}\""
       },
-      {
-        "name": "Type-check with mypy",
-        "type": "shell",
-        "command": "cd \"${workspaceRoot}\" && mypy --strict \"${file}\" --ignore-missing-imports"
-      }
-    ]
-  }
+      "timeout": 120
+    }
+  ]
 }

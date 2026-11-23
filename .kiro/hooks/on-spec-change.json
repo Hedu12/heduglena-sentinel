@@ -1,20 +1,15 @@
 {
-  "hook": {
-    "name": "Spec change review",
-    "description": "Prompt review when the specification or steering documents are edited",
-    "event": "file_save",
-    "filters": {
-      "file_patterns": [
-        ".kiro/specs/**/*.md",
-        ".kiro/steering/**/*.md"
-      ]
-    },
-    "steps": [
-      {
-        "name": "Impact analysis",
-        "type": "prompt",
-        "prompt": "The specification or steering document ${file} was just edited. Review the change and identify: (1) any acceptance criteria that may now conflict with existing code, (2) any new security requirements that need to be propagated to implementation, (3) any API contract changes that require TypeScript type updates. Summarize the impact in 3-5 bullet points."
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "spec-change-review",
+      "description": "When the agent creates or edits a spec or steering document, ask for an impact analysis. Report only.",
+      "trigger": "PostFileSave",
+      "matcher": "(^|[\\\\/])\\.kiro[\\\\/](specs|steering)[\\\\/].+\\.md$",
+      "action": {
+        "type": "agent",
+        "prompt": "A specification or steering document under .kiro/ was just created or edited. Review the change and identify: (1) any acceptance criteria that may now conflict with existing code, (2) any new or changed security requirement that must be propagated to implementation, and whether any existing security requirement was weakened or removed, (3) any API contract change that requires a TypeScript type update in frontend/src/types/api.ts. Summarize the impact in 3-5 bullet points. Report only: do not edit any file in response to this hook."
       }
-    ]
-  }
+    }
+  ]
 }

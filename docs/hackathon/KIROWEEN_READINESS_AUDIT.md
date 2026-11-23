@@ -58,7 +58,7 @@ Evaluation harness: backend/evaluation (Phase 7–8.5.1), offline CLI, not part 
 | Layer | Modules | Lines (Bandit count) | State |
 |---|---|---|---|
 | Backend source | 12 packages, 88 files | 11,450 | Implemented, type-clean |
-| Tests | unit 33, integration 20, security 15, performance 0 | n/a | 2,011 pass |
+| Tests | 32 unit, 19 integration, 14 security and 0 performance test files | n/a | 2,011 pass |
 | Frontend | `package.json`, `vite.config.ts`, `tsconfig*.json`, `Dockerfile`, `src/types/api.ts`, `tests/setup.ts` | ~10 KB types | No application |
 | Kiro | 1 spec, 5 steering files, 5 hook files | n/a | Steering valid; hooks and spec format not recognized (see §7) |
 
