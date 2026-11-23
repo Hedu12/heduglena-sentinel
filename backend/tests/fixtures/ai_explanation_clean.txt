@@ -1,0 +1,11 @@
+An anomaly was detected on the monitored host. CPU utilization reached 91.2%, exceeding the configured threshold of 85%.
+
+The detection rule "cpu-spike" fired at 14:32:07 UTC. This is the first event of this type in the past hour.
+
+The threat score has been elevated to 0.42, moving the defense state from RELAXED to ALERT.
+
+Recommended analyst actions:
+- Review recent process activity in the detection events panel.
+- Check whether the CPU spike corresponds to a known scheduled task or build job.
+- If the activity continues for more than 5 minutes, consider escalating the investigation.
+- No destructive action is recommended at this severity level.

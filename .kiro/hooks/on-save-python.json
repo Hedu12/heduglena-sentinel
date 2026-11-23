@@ -1,0 +1,22 @@
+{
+  "hook": {
+    "name": "Python file save checks",
+    "description": "Run ruff and mypy on every saved Python file",
+    "event": "file_save",
+    "filters": {
+      "file_patterns": ["**/*.py"]
+    },
+    "steps": [
+      {
+        "name": "Lint with ruff",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && ruff check \"${file}\" --output-format=concise"
+      },
+      {
+        "name": "Type-check with mypy",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && mypy --strict \"${file}\" --ignore-missing-imports"
+      }
+    ]
+  }
+}

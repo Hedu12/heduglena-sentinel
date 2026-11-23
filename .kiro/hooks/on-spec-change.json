@@ -1,0 +1,20 @@
+{
+  "hook": {
+    "name": "Spec change review",
+    "description": "Prompt review when the specification or steering documents are edited",
+    "event": "file_save",
+    "filters": {
+      "file_patterns": [
+        ".kiro/specs/**/*.md",
+        ".kiro/steering/**/*.md"
+      ]
+    },
+    "steps": [
+      {
+        "name": "Impact analysis",
+        "type": "prompt",
+        "prompt": "The specification or steering document ${file} was just edited. Review the change and identify: (1) any acceptance criteria that may now conflict with existing code, (2) any new security requirements that need to be propagated to implementation, (3) any API contract changes that require TypeScript type updates. Summarize the impact in 3-5 bullet points."
+      }
+    ]
+  }
+}

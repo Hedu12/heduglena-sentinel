@@ -1,0 +1,44 @@
+{
+  "hook": {
+    "name": "Pre-commit quality gate",
+    "description": "Full quality check before any commit — linting, type checks, unit tests, security scan",
+    "event": "pre_commit",
+    "steps": [
+      {
+        "name": "Ruff lint",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && ruff check backend/ --output-format=concise"
+      },
+      {
+        "name": "Ruff format check",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && ruff format backend/ --check"
+      },
+      {
+        "name": "mypy type check",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && mypy --strict backend/ --ignore-missing-imports"
+      },
+      {
+        "name": "Unit tests",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && pytest tests/unit/ -q --tb=short --cov=backend --cov-fail-under=80"
+      },
+      {
+        "name": "Security tests",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && pytest tests/security/ -q --tb=short"
+      },
+      {
+        "name": "Bandit",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && bandit -r backend/ -ll -f text"
+      },
+      {
+        "name": "Frontend type check",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}/frontend\" && npx tsc --noEmit"
+      }
+    ]
+  }
+}

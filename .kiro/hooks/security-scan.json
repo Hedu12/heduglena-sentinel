@@ -1,0 +1,26 @@
+{
+  "hook": {
+    "name": "Security scan on response/AI changes",
+    "description": "Run bandit whenever response engine or AI pipeline files are saved",
+    "event": "file_save",
+    "filters": {
+      "file_patterns": [
+        "backend/response/**/*.py",
+        "backend/ai/**/*.py",
+        "backend/core/**/*.py"
+      ]
+    },
+    "steps": [
+      {
+        "name": "Bandit security scan",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}\" && bandit -r \"${file}\" -ll -f text"
+      },
+      {
+        "name": "Check for LIVE_ACTIONS guard",
+        "type": "prompt",
+        "prompt": "The file ${file} was saved. It is part of the response engine or AI pipeline. Check that: (1) any new action execution code path passes through ResponseGuard, (2) no subprocess/os.system calls use user-influenced arguments, (3) AI output is validated before storage. Report any violations found."
+      }
+    ]
+  }
+}

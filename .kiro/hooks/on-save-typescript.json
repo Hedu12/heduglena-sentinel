@@ -1,0 +1,17 @@
+{
+  "hook": {
+    "name": "TypeScript file save checks",
+    "description": "Run ESLint on every saved TypeScript/TSX file",
+    "event": "file_save",
+    "filters": {
+      "file_patterns": ["frontend/src/**/*.ts", "frontend/src/**/*.tsx"]
+    },
+    "steps": [
+      {
+        "name": "Lint with ESLint",
+        "type": "shell",
+        "command": "cd \"${workspaceRoot}/frontend\" && npx eslint \"${file}\" --format=compact"
+      }
+    ]
+  }
+}

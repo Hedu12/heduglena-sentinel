@@ -1,0 +1,18 @@
+# Store text files with LF in the repository and check them out with LF on every
+# platform, so a clone is byte-identical whatever the local core.autocrlf setting.
+* text=auto eol=lf
+
+# Security-pinned files: tests/security/test_guard_integrity.py and
+# test_validator_integrity.py compare their raw SHA-256 bytes. Never convert them.
+backend/response/guard.py -text
+backend/ai/validator.py -text
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.mp4 binary
