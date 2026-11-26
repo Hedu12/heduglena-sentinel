@@ -1,5 +1,7 @@
 # HEDUGLENA Sentinel
 
+![HEDUGLENA Sentinel: Bio-Inspired Adaptive Cyber Defense. Detect, Analyze, Decide, Defend, Explain.](docs/assets/heduglena-sentinel-banner.png)
+
 > An adaptive cyber-defense prototype inspired by *Euglena*, a single-cell organism that
 > senses its environment and repositions itself. Sentinel senses host telemetry, decides how
 > dangerous it is, shifts its defense posture, and explains each decision.
@@ -96,6 +98,15 @@ The same operations are available over HTTP, all answering 403 when `DEMO_MODE=f
 (above the 90% memory rule), a real memory-pressure detection can appear during any scenario.
 It is shown as **REAL HOST**, never as a demo event. During "Suspicious" it counts as a second,
 independent signal, which is why that scenario can then reach AGGRESSIVE.
+
+### Screenshot
+
+![Sentinel dashboard during the Suspicious scenario, in the DEFENSIVE state with a threat score of about 0.76](docs/assets/dashboard-defensive-1920x1080.png)
+
+A real capture of the running dashboard (1920×1080), not a mockup. It was taken during the
+**Suspicious** scenario, in the **DEFENSIVE** state with a threat score of about 0.76, using
+the default offline explanation provider (`AI_PROVIDER=null`). All responses shown are
+simulated. The [full-page capture](docs/assets/dashboard-defensive-full.png) shows every panel.
 
 ## API overview
 

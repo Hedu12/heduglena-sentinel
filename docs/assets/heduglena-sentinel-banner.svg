@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="t d">
+  <title id="t">HEDUGLENA SENTINEL — Bio-Inspired Adaptive Cyber Defense</title>
+  <desc id="d">A Euglena-like microorganism on the left and a digital shield with a lock on the right, joined by the pipeline Detect, Analyze, Decide, Defend, Explain.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="75%">
+      <stop offset="0" stop-color="#0c2d2e"/>
+      <stop offset="0.55" stop-color="#061517"/>
+      <stop offset="1" stop-color="#020607"/>
+    </radialGradient>
+    <radialGradient id="beamTop" cx="50%" cy="0%" r="60%">
+      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowGreen" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#34d399" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#34d399" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lensFill" cx="45%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#0f3d36" stop-opacity="0.9"/>
+      <stop offset="0.8" stop-color="#06201d" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#03100f" stop-opacity="0.9"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="-1" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ff0b8" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#2fb47a" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#0d5f45" stop-opacity="0.55"/>
+    </linearGradient>
+    <radialGradient id="eyespot" cx="40%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#ffd08a"/>
+      <stop offset="0.45" stop-color="#ff7a3d"/>
+      <stop offset="1" stop-color="#c2410c"/>
+    </radialGradient>
+    <linearGradient id="shieldFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f3a40"/>
+      <stop offset="1" stop-color="#061a1e"/>
+    </linearGradient>
+    <linearGradient id="shieldEdge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#67e8f9"/>
+      <stop offset="1" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399" stop-opacity="0.1"/>
+      <stop offset="0.5" stop-color="#5eead4" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5eead4" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#5eead4" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#5eead4" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="haze"><feGaussianBlur stdDeviation="40"/></filter>
+    <pattern id="hex" width="56" height="97" patternUnits="userSpaceOnUse" patternTransform="scale(0.7)">
+      <path d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z M28 64 L28 97" fill="none" stroke="#5eead4" stroke-width="1"/>
+    </pattern>
+    <clipPath id="lensClip"><circle cx="0" cy="0" r="206"/></clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#hex)" opacity="0.06"/>
+  <ellipse cx="800" cy="0" rx="900" ry="420" fill="url(#beamTop)"/>
+  <ellipse cx="280" cy="540" rx="380" ry="320" fill="url(#glowGreen)"/>
+  <ellipse cx="1330" cy="530" rx="360" ry="320" fill="url(#glowCyan)"/>
+
+  <!-- Global infrastructure: faint globe at the horizon -->
+  <g fill="none" stroke="#5eead4" stroke-opacity="0.07" stroke-width="1">
+    <ellipse cx="800" cy="1180" rx="820" ry="420"/>
+    <ellipse cx="800" cy="1180" rx="820" ry="330"/>
+    <ellipse cx="800" cy="1180" rx="820" ry="240"/>
+    <ellipse cx="800" cy="1180" rx="620" ry="420"/>
+    <ellipse cx="800" cy="1180" rx="380" ry="420"/>
+    <ellipse cx="800" cy="1180" rx="140" ry="420"/>
+  </g>
+
+  <!-- Network topology -->
+  <g stroke="#5eead4" stroke-opacity="0.12" stroke-width="1" fill="none">
+    <polyline points="40,120 190,70 330,140 470,90"/>
+    <polyline points="1130,80 1260,140 1400,70 1560,130"/>
+    <polyline points="60,820 210,760 360,840"/>
+    <polyline points="1240,830 1390,770 1550,840"/>
+    <line x1="190" y1="70" x2="210" y2="200"/>
+    <line x1="1400" y1="70" x2="1420" y2="210"/>
+  </g>
+  <g fill="#5eead4" fill-opacity="0.35">
+    <circle cx="40" cy="120" r="2.5"/><circle cx="190" cy="70" r="3"/><circle cx="330" cy="140" r="2.5"/>
+    <circle cx="470" cy="90" r="2"/><circle cx="210" cy="200" r="2"/><circle cx="1130" cy="80" r="2"/>
+    <circle cx="1260" cy="140" r="3"/><circle cx="1400" cy="70" r="2.5"/><circle cx="1560" cy="130" r="2"/>
+    <circle cx="1420" cy="210" r="2"/><circle cx="60" cy="820" r="2"/><circle cx="210" cy="760" r="3"/>
+    <circle cx="360" cy="840" r="2"/><circle cx="1240" cy="830" r="2"/><circle cx="1390" cy="770" r="3"/>
+    <circle cx="1550" cy="840" r="2"/>
+  </g>
+
+  <!-- Faint hexadecimal texture -->
+  <g font-family="Consolas, 'Cascadia Mono', 'SFMono-Regular', monospace" font-size="12" fill="#5eead4" fill-opacity="0.08" letter-spacing="2">
+    <text x="36" y="40">7E 4C A1 09 3F D2 88 1B</text>
+    <text x="1290" y="40">0F E3 5A 92 C7 41 6D 20</text>
+    <text x="36" y="880">B4 17 6E F0 2A 9C 53 D8</text>
+    <text x="1290" y="880">61 AF 0C 3E 95 72 E8 4B</text>
+  </g>
+
+  <!-- Left: microscope field with a Euglena-like cell -->
+  <g transform="translate(275 535)">
+    <circle r="236" fill="none" stroke="#34d399" stroke-opacity="0.10" stroke-width="18" filter="url(#haze)"/>
+    <circle r="206" fill="url(#lensFill)"/>
+    <g clip-path="url(#lensClip)">
+      <g stroke="#6ee7b7" stroke-opacity="0.06" stroke-width="1">
+        <line x1="-210" y1="-120" x2="210" y2="-120"/><line x1="-210" y1="-40" x2="210" y2="-40"/>
+        <line x1="-210" y1="40" x2="210" y2="40"/><line x1="-210" y1="120" x2="210" y2="120"/>
+        <line x1="-120" y1="-210" x2="-120" y2="210"/><line x1="-40" y1="-210" x2="-40" y2="210"/>
+        <line x1="40" y1="-210" x2="40" y2="210"/><line x1="120" y1="-210" x2="120" y2="210"/>
+      </g>
+      <g fill="#a7f3d0" fill-opacity="0.08">
+        <circle cx="-140" cy="-90" r="5"/><circle cx="120" cy="130" r="4"/><circle cx="-90" cy="140" r="3"/>
+        <circle cx="150" cy="-120" r="3"/><circle cx="-160" cy="60" r="2.5"/>
+      </g>
+      <g transform="translate(-26 4) scale(0.8) rotate(-20)">
+        <!-- flagellum (fully inside the lens) -->
+        <path d="M168 -4 C190 -32 206 18 226 -6 S252 -32 262 -12" fill="none" stroke="#a7f3d0" stroke-opacity="0.8" stroke-width="2.6" stroke-linecap="round" filter="url(#softGlow)"/>
+        <!-- cell body -->
+        <path d="M-175 2 C-150 -50 40 -64 158 -20 C178 -12 182 10 160 20 C40 64 -150 52 -175 2 Z" fill="url(#body)" stroke="#86efac" stroke-opacity="0.65" stroke-width="1.6"/>
+        <!-- pellicle striations -->
+        <g fill="none" stroke="#bbf7d0" stroke-opacity="0.16" stroke-width="1">
+          <path d="M-150 -10 C-60 -42 60 -44 150 -14"/>
+          <path d="M-160 2 C-60 -22 70 -22 165 0"/>
+          <path d="M-150 14 C-60 34 60 38 150 16"/>
+        </g>
+        <!-- chloroplasts -->
+        <g fill="#22c55e" fill-opacity="0.55">
+          <ellipse cx="-110" cy="-6" rx="16" ry="7" transform="rotate(-8 -110 -6)"/>
+          <ellipse cx="-70" cy="16" rx="15" ry="6.5" transform="rotate(10 -70 16)"/>
+          <ellipse cx="-56" cy="-22" rx="14" ry="6"/>
+          <ellipse cx="30" cy="-24" rx="15" ry="6" transform="rotate(-10 30 -24)"/>
+          <ellipse cx="62" cy="14" rx="16" ry="6.5" transform="rotate(8 62 14)"/>
+          <ellipse cx="96" cy="-10" rx="13" ry="5.5"/>
+        </g>
+        <!-- nucleus -->
+        <circle cx="-14" cy="-2" r="22" fill="#d1fae5" fill-opacity="0.16" stroke="#a7f3d0" stroke-opacity="0.45" stroke-width="1.2"/>
+        <circle cx="-10" cy="-5" r="7" fill="#a7f3d0" fill-opacity="0.35"/>
+        <!-- eyespot (stigma) -->
+        <circle cx="136" cy="-9" r="16" fill="#ff8a4c" fill-opacity="0.25" filter="url(#glow)"/>
+        <circle cx="136" cy="-9" r="7.5" fill="url(#eyespot)"/>
+      </g>
+    </g>
+    <!-- lens ring and scale ticks -->
+    <circle r="206" fill="none" stroke="#6ee7b7" stroke-opacity="0.5" stroke-width="1.5"/>
+    <circle r="214" fill="none" stroke="#6ee7b7" stroke-opacity="0.15" stroke-width="1"/>
+    <g stroke="#6ee7b7" stroke-opacity="0.45" stroke-width="1.2">
+      <line x1="0" y1="-206" x2="0" y2="-194"/><line x1="0" y1="206" x2="0" y2="194"/>
+      <line x1="-206" y1="0" x2="-194" y2="0"/><line x1="206" y1="0" x2="194" y2="0"/>
+    </g>
+    <text x="0" y="240" text-anchor="middle" font-family="Consolas, 'Cascadia Mono', monospace" font-size="12" fill="#6ee7b7" fill-opacity="0.55" letter-spacing="2">EUGLENA · SENSE &amp; ADAPT</text>
+  </g>
+
+  <!-- Right: digital shield with lock and circuit traces -->
+  <g transform="translate(1330 525)">
+    <g fill="none" stroke="#22d3ee" stroke-opacity="0.35" stroke-width="1.5">
+      <polyline points="-150,-60 -210,-60 -210,-120 -250,-120"/>
+      <polyline points="-150,40 -230,40 -230,90"/>
+      <polyline points="150,-80 220,-80 220,-150"/>
+      <polyline points="150,20 240,20"/>
+      <polyline points="60,180 60,240 130,240"/>
+      <polyline points="-60,180 -60,250"/>
+    </g>
+    <g fill="#67e8f9" fill-opacity="0.75">
+      <circle cx="-250" cy="-120" r="3.5"/><circle cx="-230" cy="90" r="3.5"/><circle cx="220" cy="-150" r="3.5"/>
+      <circle cx="240" cy="20" r="3.5"/><circle cx="130" cy="240" r="3.5"/><circle cx="-60" cy="250" r="3.5"/>
+    </g>
+    <path d="M0 -175 L148 -122 L148 8 C148 102 76 160 0 194 C-76 160 -148 102 -148 8 L-148 -122 Z" fill="url(#shieldFill)" stroke="url(#shieldEdge)" stroke-width="3" filter="url(#softGlow)"/>
+    <path d="M0 -150 L124 -106 L124 6 C124 86 64 136 0 166 C-64 136 -124 86 -124 6 L-124 -106 Z" fill="none" stroke="#5eead4" stroke-opacity="0.3" stroke-width="1.2"/>
+    <!-- lock -->
+    <path d="M-34 -14 L-34 -42 C-34 -82 34 -82 34 -42 L34 -14" fill="none" stroke="#a5f3fc" stroke-width="9" stroke-linecap="round"/>
+    <rect x="-56" y="-16" width="112" height="92" rx="12" fill="#0b2f36" stroke="#a5f3fc" stroke-width="3"/>
+    <circle cx="0" cy="20" r="12" fill="#67e8f9" filter="url(#softGlow)"/>
+    <rect x="-4.5" y="24" width="9" height="28" rx="3" fill="#67e8f9"/>
+  </g>
+
+  <!-- Title -->
+  <g text-anchor="middle" font-family="'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif">
+    <text x="800" y="182" font-size="78" font-weight="700" letter-spacing="7">
+      <tspan fill="#f8fafc">HEDUGLENA </tspan><tspan fill="#5eead4">SENTINEL</tspan>
+    </text>
+    <text x="800" y="238" font-size="27" font-weight="400" fill="#b6e3dc" letter-spacing="4">Bio-Inspired Adaptive Cyber Defense</text>
+  </g>
+  <rect x="560" y="266" width="480" height="1.5" fill="url(#rule)"/>
+
+  <!-- Pipeline: Detect -> Analyze -> Decide -> Defend -> Explain -->
+  <path d="M482 520 C510 520 520 520 552 520" fill="none" stroke="#34d399" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <path d="M1048 520 C1090 520 1120 520 1180 520" fill="none" stroke="#22d3ee" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <line x1="560" y1="520" x2="1040" y2="520" stroke="url(#flow)" stroke-width="2.5" filter="url(#softGlow)"/>
+  <g fill="#a7f3d0">
+    <circle cx="620" cy="520" r="2.5" filter="url(#softGlow)"/><circle cx="740" cy="520" r="2.5" filter="url(#softGlow)"/>
+    <circle cx="860" cy="520" r="2.5" filter="url(#softGlow)"/><circle cx="980" cy="520" r="2.5" filter="url(#softGlow)"/>
+  </g>
+
+  <g font-family="'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" fill="#cbeee8" text-anchor="middle" letter-spacing="1.5">
+    <!-- Detect -->
+    <g transform="translate(560 520)">
+      <circle r="36" fill="#071c1d" stroke="#5eead4" stroke-width="1.8"/>
+      <circle r="44" fill="none" stroke="#5eead4" stroke-opacity="0.15"/>
+      <g fill="none" stroke="#5eead4" stroke-width="2.4" stroke-linecap="round">
+        <circle cx="-3" cy="-3" r="10"/><line x1="4.5" y1="4.5" x2="13" y2="13"/>
+      </g>
+      <text y="74">Detect</text>
+    </g>
+    <!-- Analyze -->
+    <g transform="translate(680 520)">
+      <circle r="36" fill="#071c1d" stroke="#5eead4" stroke-width="1.8"/>
+      <circle r="44" fill="none" stroke="#5eead4" stroke-opacity="0.15"/>
+      <polyline points="-15,2 -8,2 -4,-10 2,12 6,-4 9,2 15,2" fill="none" stroke="#5eead4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text y="74">Analyze</text>
+    </g>
+    <!-- Decide -->
+    <g transform="translate(800 520)">
+      <circle r="36" fill="#071c1d" stroke="#5eead4" stroke-width="1.8"/>
+      <circle r="44" fill="none" stroke="#5eead4" stroke-opacity="0.15"/>
+      <g fill="none" stroke="#5eead4" stroke-width="2.4" stroke-linecap="round">
+        <path d="M0 -9 L0 -1 M0 -1 L-9 8 M0 -1 L9 8"/>
+      </g>
+      <g fill="#5eead4"><circle cx="0" cy="-12" r="3.5"/><circle cx="-10" cy="10" r="3.5"/><circle cx="10" cy="10" r="3.5"/></g>
+      <text y="74">Decide</text>
+    </g>
+    <!-- Defend -->
+    <g transform="translate(920 520)">
+      <circle r="36" fill="#071c1d" stroke="#5eead4" stroke-width="1.8"/>
+      <circle r="44" fill="none" stroke="#5eead4" stroke-opacity="0.15"/>
+      <path d="M0 -14 L11 -9 L11 0 C11 8 5 12 0 15 C-5 12 -11 8 -11 0 L-11 -9 Z" fill="none" stroke="#5eead4" stroke-width="2.4" stroke-linejoin="round"/>
+      <polyline points="-5,0 -1,4 6,-4" fill="none" stroke="#5eead4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text y="74">Defend</text>
+    </g>
+    <!-- Explain -->
+    <g transform="translate(1040 520)">
+      <circle r="36" fill="#071c1d" stroke="#5eead4" stroke-width="1.8"/>
+      <circle r="44" fill="none" stroke="#5eead4" stroke-opacity="0.15"/>
+      <path d="M-13 -11 H13 A3 3 0 0 1 16 -8 V5 A3 3 0 0 1 13 8 H-2 L-8 14 L-8 8 H-13 A3 3 0 0 1 -16 5 V-8 A3 3 0 0 1 -13 -11 Z" fill="none" stroke="#5eead4" stroke-width="2.2" stroke-linejoin="round"/>
+      <g stroke="#5eead4" stroke-width="2" stroke-linecap="round"><line x1="-8" y1="-4" x2="8" y2="-4"/><line x1="-8" y1="2" x2="3" y2="2"/></g>
+      <text y="74">Explain</text>
+    </g>
+  </g>
+
+  <!-- Tagline -->
+  <text x="800" y="790" text-anchor="middle" font-family="'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" fill="#8cc9c1" letter-spacing="4">Adaptive. Explainable. Resilient.</text>
+</svg>
