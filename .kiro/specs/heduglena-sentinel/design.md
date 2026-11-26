@@ -38,10 +38,12 @@ Status markers: **BUILT** = implemented and covered by passing tests (verified 2
 | Persistence and migrations (head `f8b5d2c30008`) | `backend/database/`, `backend/alembic/` | BUILT |
 | Offline evaluation harness | `backend/evaluation/` | BUILT |
 | Incident and explanation read API | `backend/api/v1/incidents.py` | BUILT |
-| Runtime orchestrator (drives the pipeline in the app) | `backend/core/` or `backend/runtime/` | PLANNED |
-| Read API (status, telemetry, events, score, state, actions, rules), CORS | `backend/api/v1/` | PLANNED |
-| Demo API (inject, scenario, reset) | `backend/api/v1/demo.py` | PLANNED |
-| Dashboard | `frontend/src/` | PLANNED (types only today) |
+| Runtime orchestrator (composition root), lifespan, fresh-schema bootstrap | `backend/app/runtime.py`, `backend/app/main.py`, `backend/database/bootstrap.py` | BUILT (Phase 2) |
+| Current-state read API (status, runtime, state, score, telemetry, events, actions), CORS | `backend/api/v1/runtime.py` | BUILT (Phase 2) |
+| History endpoints, rules API | `backend/api/v1/` | PLANNED |
+| Demo API (inject, scenarios); reset pending a decision | `backend/api/v1/demo.py`, `backend/core/demo.py` | BUILT (Phase 2) |
+| Live stream `WS /ws/live` | `backend/api/v1/live.py`, `backend/core/live.py` | BUILT (Phase 2) |
+| Dashboard (React 18 + TypeScript + Vite, React Query, observation-only WebSocket) | `frontend/src/` | BUILT (Phase 3) |
 
 ## 2. Authoritative security decision pipeline
 
@@ -89,7 +91,8 @@ The pipeline in §1 is the **only** path that can change the defense state or re
 ### 3.3 Input, secrets and data isolation
 Pydantic validation and parameterized queries (SR-03); secrets only from the environment as
 `SecretStr` (SR-04); no database path, configuration or secret in API responses (SR-06); demo
-routes return 403 when `DEMO_MODE=false` (SR-08, PLANNED with the demo API).
+routes return 403 when `DEMO_MODE=false`, before any input is read (SR-08); the live
+WebSocket refuses foreign browser origins.
 
 ## 4. Protected modules and files
 
@@ -123,20 +126,52 @@ Never run `ruff format` or `ruff --fix` on `guard.py`.
   The remaining §13.2 groups, CORS (§13.4) and the optional WebSocket (§13.3) are PLANNED.
 - **Frontend contract:** `frontend/src/types/api.ts` mirrors the Pydantic schemas (P-08).
 
-## 6. Planned runtime integration (hackathon delivery)
+## 6. Runtime integration (Phase 2, BUILT)
 
-Design constraints for the PLANNED components; their detailed design belongs in a dedicated spec
-created at the start of that phase.
-
-- **Orchestrator:** started and stopped by the FastAPI lifespan; runs the collector loop and feeds
-  each sample and each synthetic event through detection → `assess(now)` → `ResponseService.handle()`,
-  then `ExplanationService.observe()`. It restores state at startup, isolates stage failures (P-04),
-  and adds no logic to the protected modules. Reference wiring: `backend/tests/threat_scenario.py`.
-- **Demo API:** synthetic events only, allowlisted types (422 otherwise), 403 when
-  `DEMO_MODE=false`, rate-limited (TM-02); reset clears in-memory state only and never deletes audit
-  rows (P-07).
-- **Dashboard:** polling via React Query at ≤ 2 s; state colors always paired with text; SIMULATED
-  badges; neutral "Explanation pending" label (AS-06); no business logic (P-08).
+- **Orchestrator** (`app/runtime.py`): the composition root, in `app/` because it wires the
+  security domain to the explanation layer and `core/` is part of the security domain, which must
+  never import `ai/` or `explanation/` (`tests/security/test_ai_boundary.py`). Started and stopped
+  by the FastAPI lifespan. Each
+  monitoring cycle and each synthetic event runs, under one `asyncio.Lock`, through detection →
+  `assess(now)` → `ResponseService.handle()` → `ExplanationService.observe()`, then publishes
+  sanitized read models to the live hub. It restores state at startup, logs and counts a failing
+  cycle and keeps monitoring (P-04), and contains no detection, scoring, state, response or AI logic.
+  Background tasks (monitor, explanation worker, one demo scenario) are cancelled and awaited on
+  shutdown.
+- **Schema bootstrap** (`database/bootstrap.py`): an empty database is created by the Alembic
+  migrations on the application's connection; a database at head is used as is; anything else
+  refuses to start. Nothing is migrated, altered or dropped automatically.
+- **Demo API**: security synthetic types only (422 otherwise), 403 when `DEMO_MODE=false`,
+  rate-limited (TM-02), one scenario at a time.
+- **Demo reset** (Phase 3.1, `app/demo_reset.py`): *session rotation*, not state manipulation.
+  It (1) refuses unless `DEMO_MODE=true` and the database is a local SQLite file, and accepts no
+  input (422 for any body or query); (2) stops the session through `app/lifecycle.stop_session`;
+  (3) archives the database file intact into `<name>-demo-sessions/session-<UTC>/` (rename, never
+  delete; a file still held open is retried, and on failure the old session is resumed);
+  (4) starts a new session through `start_session`, the same path as application startup.
+  It **may clear** only the active session: it replaces the session database (preserved in the
+  archive) and the in-memory runtime (new detection, threat, response, explanation and live
+  instances). It **does not bypass the state machine**: it never calls the scorer, the state
+  machine, the planner, the guard or the executor, and writes no state, score, transition or
+  response; the new state is produced by `ThreatAssessmentService.restore_state()` from an empty
+  history, so it is whatever the authoritative pipeline derives (RELAXED). Restoring an archived
+  session with the same code yields its escalated state again (tested). The demo rate limiter
+  carries over. While no runtime is attached the read endpoints answer 503; live clients are
+  closed with 1012 and reconnect to the new runtime.
+- **Production CSP** (Phase 3.1, `frontend/config/csp.ts`): `default-src 'none'`, `'self'` for
+  scripts, styles, images, fonts and `connect-src` (API and same-origin `/ws/live`), plus explicit
+  origins only when configured; no `unsafe-eval` or `unsafe-inline`. Delivered as a build-time meta
+  tag, as `dist/serve.json` headers for `serve -s dist`, and as `vite preview` headers; any other
+  host must set the response header itself (README).
+- **Live stream**: `WS /ws/live`, receive-only, bounded drop-oldest queues per client, origin check,
+  subscriber limit.
+- **Dashboard** (Phase 3, BUILT): `services/` (typed REST client, observation-only `LiveClient`
+  that validates, de-duplicates and reconnects), `hooks/` (one `LiveProvider`; React Query reads
+  that refresh on live events and poll at a bounded rate only while the stream is down),
+  `features/` (one folder per pipeline stage), `components/` (panels, text-carrying badges,
+  loading, empty and error states). It computes no score and decides no state (P-08); the only
+  writes are the deliberate demo POSTs. State colors are always paired with text; responses are
+  always labeled SIMULATED and demo events SYNTHETIC.
 
 ## 7. Error handling
 

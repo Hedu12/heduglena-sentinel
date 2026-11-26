@@ -54,38 +54,78 @@ need Henok's go-ahead before they start.
 
 ## Phase 2 — Runtime integration
 
-- [ ] 15. Build the runtime orchestrator **(approval: security review)**
-  - Start and stop it in the FastAPI lifespan; collector loop → detection → `assess(now)` →
-    `ResponseService.handle()` → `ExplanationService.observe()`
-  - Restore state at startup; isolate stage failures; log with correlation IDs
-  - Integration test: real app lifecycle with the fake telemetry provider
-  - _Requirements: 5.1, 5.2, 14.1, 14.3_
-- [ ] 16. Bootstrap the schema with Alembic at startup, never dropping data **(approval)**
+- [x] 15. Build the runtime orchestrator (`backend/app/runtime.py`, the composition root)
+  - Started and stopped by the FastAPI lifespan; collector → detection → `assess(now)` →
+    `ResponseService.handle()` → `ExplanationService.observe()`, under one lock
+  - Restores state at startup; one failing cycle is logged, counted and survived
+  - Tests: `tests/integration/test_runtime_orchestrator.py`, `test_runtime_api.py`,
+    `tests/security/test_runtime_safety.py`, `tests/unit/test_runtime_components.py`
+  - Correlation IDs in logs remain open under task 17
+  - _Requirements: 5.1, 5.2, 14.1_
+- [x] 16. Create the schema on an empty database at startup, with the Alembic migrations
+  (`backend/database/bootstrap.py`). Any other mismatch refuses to start; nothing is
+  migrated or dropped automatically.
   - _Requirements: 17.2_
 - [ ] 17. Add structured JSON logging with secret masking
   - _Requirements: 13.2, 14.3_
 
 ## Phase 3 — API and demo controls
 
-- [ ] 18. Build the read API (status, telemetry, events, score, state, actions, rules) and CORS
-  - Bounded queries in domain read services; happy-path and error-path tests per endpoint
-  - _Requirements: 3.6, 4.7, 10.1–10.5, 10.7, 16.2_
-- [ ] 19. Build the demo API (inject, scenario, reset) **(approval: security-sensitive)**
-  - Allowlist → 422; `DEMO_MODE=false` → 403; rate limit; synthetic intake only; reset keeps audit rows
-  - Add `tests/security/test_demo_mode_guard.py`
-  - _Requirements: 5.5, 12.1–12.5_
+- [x] 18. Build the current-state read API and CORS (`backend/api/v1/runtime.py`)
+  - Built: `/api/v1/status`, `/runtime`, `/state/current`, `/score/current`,
+    `/telemetry/latest`, `/events`, `/actions`; CORS from `FRONTEND_ORIGIN`
+  - _Requirements: 4.7, 10.2–10.5_
+- [ ] 18a. Add the history endpoints (`/score/history`, `/state/history`,
+  `/telemetry/history`), `/events/{id}` and `/rules`, and measure p95 latency
+  - _Requirements: 3.6, 10.1, 10.7_
+- [x] 19. Build the demo API (`backend/api/v1/demo.py`, `backend/core/demo.py`)
+  - `inject`, `scenarios`, `scenario/{name}` (normal, suspicious, critical); security
+    synthetic types only (422 otherwise); `DEMO_MODE=false` → 403 before input is read;
+    rate limit (429); one scenario at a time (409); synthetic intake only
+  - _Requirements: 5.5, 12.3, 12.4, 12.5_
+- [x] 19a. Safe demo reset (Phase 3.1): `POST /api/v1/demo/reset`, `app/demo_reset.py`,
+  `app/lifecycle.py`; dashboard **Reset demo session** with confirmation
+  - Session rotation: the session's SQLite file is archived intact (renamed, never deleted)
+    and a new session starts as application startup does; the state comes from the state
+    machine's own restore of an empty history. No state, score, transition or response is
+    written; no input is accepted (422); `DEMO_MODE=false` → 403; local SQLite file only
+  - Reads answer 503 while no runtime is attached, so nothing reads a half-built database
+  - Tests: `tests/integration/test_demo_reset.py` (22), `frontend/tests/app/dashboard.test.tsx`
+  - _Requirements: 12.2 (reset to a clean demo start; P-07 preserved: nothing deleted)_
+- [x] 19b. Build `WS /ws/live` (`backend/api/v1/live.py`, `backend/core/live.py`)
+  - Receive-only, sanitized read models, bounded per-client queues, origin check,
+    subscriber limit, reconnect-safe
+  - _Requirements: 10.6_
 - [ ] 20. Decide whether to build runtime rule enable/disable (`PUT /rules/{id}/...`) **(approval)**
   - _Requirements: 2.3_
 
 ## Phase 4 — Dashboard
 
-- [ ] 21. Scaffold the Vite + React + TypeScript app, API client and React Query polling
-  **(approval: dependency install)**
+- [x] 21. Scaffold the Vite + React + TypeScript app, typed API client, observation-only
+  WebSocket client and React Query (dependencies approved by Henok, Phase 3)
+  - **Spec revision (approved):** plain CSS with design tokens and an inline SVG trend
+    replace Tailwind CSS and Recharts (§14.1), to avoid heavy UI dependencies
   - _Requirements: 11.2, 11.6_
-- [ ] 22. Build the ten F-07 panels, with state colors paired with text labels and SIMULATED badges
+- [x] 22. Build the dashboard panels: system status, defense posture (four-state ladder, score,
+  trend), pipeline, host telemetry, detections, threat analysis, guarded responses, incident
+  timeline, AI explanation, DEMO MODE controls
+  - Rule table panel not built: the backend has no rules endpoint yet (task 18a)
   - _Requirements: 11.1, 11.3, 11.4, 11.5, 11.7_
-- [ ] 23. Add component tests (ThreatGauge, StateDisplay, EventFeed, ActionLog, AIPanel)
+- [x] 23. Frontend tests (Vitest + Testing Library): 47 tests, including a contract test
+  against responses recorded from the real backend (`frontend/tests/fixtures/contract.json`,
+  checked for drift by `backend/tests/integration/test_dashboard_contract.py`)
   - _Requirements: 16.4, 16.5_
+- [ ] 23a. Upgrade the dev tooling flagged by `npm audit` (Vite ≤ 6.4.3, Vitest < 3.2.6,
+  tinypool, esbuild; development server and test runner only, not the shipped bundle)
+  - **Deferred by Henok's decision (Phase 3.1)** until after the hackathon; no major
+    toolchain migration before submission. Dev and preview servers stay on localhost.
+- [x] 23b. Production Content Security Policy (Phase 3.1): `frontend/config/csp.ts`; meta CSP in
+  `dist/index.html`, `dist/serve.json` headers for `serve -s dist`, `vite preview` headers;
+  `npm run verify:csp`; no `unsafe-eval` / `unsafe-inline`; verified with 0 violations in a
+  real browser. Other hosts must set the header themselves (README).
+- [x] 23c. Visual QA preparation (Phase 3.1): `docs/hackathon/VISUAL_QA.md`; automated pass at
+  1280×720 and 1920×1080; pipeline moved first, trend full width, minimum text 11 px
+- [ ] 23d. Manual visual review in a real browser by Henok (checklist in `VISUAL_QA.md`)
 - [ ] 24. Apply the Kiroween visual theme without hiding state or safety labels
 
 ## Phase 5 — Release readiness and submission
@@ -122,6 +162,13 @@ it, or record a spec revision approved by Henok. The requirement is never silent
   budget of 500. The default is 500. Changing the cap is a production change **(approval)**.
   - _Requirements: 8.8_
 - [ ] 35. AC-F06-1: only the `null` provider meets the 10 s explanation budget on this laptop.
+  - **CPU LLM work deferred (Henok, 2026-11-26):** `qwen3:0.6b` classified NOT READY /
+    DEFERRED for this hardware, based on the measured CPU results (`qwen2.5:0.5b` ~45 s,
+    `llama3.2` ~140 s per explanation vs the 10 s budget). No model download, no CPU
+    fine-tuning, no ML packages, no adapter or AI-boundary change. The `null` provider is the
+    hackathon explanation path. See `docs/evaluation/QWEN3_0.6B_CPU_EVALUATION.md`.
+  - Future: a fresh GPU benchmark with the same 15 cases and the unchanged gates. A model is
+    recommended only if it passes every gate. Not part of the hackathon phase.
   - _Requirements: 8.9_
 - [ ] 36. Unit-test coverage alone is 72.36%, below the ≥ 80% target. The full suite covers more.
   Add unit tests; do not lower the threshold.
