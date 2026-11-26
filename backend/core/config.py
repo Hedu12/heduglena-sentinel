@@ -25,9 +25,10 @@ class Settings(BaseSettings):
     )
 
     # ── Application ──────────────────────────────────────────────────────────
-    # live_actions is read by ResponseGuard now. demo_mode, log_level and
-    # frontend_origin are read by the API/app phase (tests/unit/test_settings_usage.py
-    # keeps this list honest: a setting must be read by code or be listed there).
+    # live_actions is read by ResponseGuard; demo_mode gates /api/v1/demo (SR-08);
+    # frontend_origin is the CORS and WebSocket origin. log_level is reserved for the
+    # logging phase (tests/unit/test_settings_usage.py keeps this honest: a setting
+    # must be read by code or be listed there).
     demo_mode: bool = Field(default=True)
     live_actions: bool = Field(default=False)
     log_level: str = Field(default="INFO")
@@ -35,6 +36,16 @@ class Settings(BaseSettings):
 
     # ── Telemetry ─────────────────────────────────────────────────────────────
     poll_interval_seconds: float = Field(default=2.0, ge=0.25)
+
+    # ── Runtime: demo scenarios and the live stream (Phase 2) ─────────────────
+    # Pause between the synthetic events of a demo scenario (0 = back to back).
+    demo_step_interval_seconds: float = Field(default=1.0, ge=0.0, le=10.0)
+    # Demo requests (inject + scenario) accepted per rolling minute (TM-02).
+    demo_max_requests_per_minute: int = Field(default=30, ge=1, le=600)
+    # WebSocket /ws/live: concurrent clients, and messages buffered per client
+    # (the oldest are dropped first, so a slow client never blocks the pipeline).
+    live_max_subscribers: int = Field(default=8, ge=1, le=64)
+    live_queue_size: int = Field(default=200, ge=10, le=5000)
 
     # ── Defense state machine: timers and entry thresholds ────────────────────
     # (Hysteresis, bypass and floors are in the Phase 4 block below.)

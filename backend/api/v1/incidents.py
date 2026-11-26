@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Path, Query
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request
 
 from core.config import settings
 from database.engine import get_session_factory
@@ -28,8 +28,16 @@ router = APIRouter(prefix="/api/v1", tags=["incidents"])
 IncidentId = Annotated[str, Path(pattern=r"^SIT-\d{1,12}$", max_length=16)]
 
 
-def get_incident_reads() -> IncidentReadService:
-    return IncidentReadService(get_session_factory())
+def get_incident_reads(request: Request) -> IncidentReadService:
+    # No runtime attached means no complete database yet (startup, or a demo reset
+    # creating the new session's schema): answer 503 instead of reading it.
+    if getattr(request.app.state, "runtime", None) is None:
+        raise HTTPException(status_code=503, detail="runtime not started")
+    try:
+        factory = get_session_factory()
+    except RuntimeError:
+        raise HTTPException(status_code=503, detail="runtime not started") from None
+    return IncidentReadService(factory)
 
 
 Reads = Annotated[IncidentReadService, Depends(get_incident_reads)]

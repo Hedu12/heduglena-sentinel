@@ -33,9 +33,7 @@ PRODUCTION_DIRS = (
 
 # Settings declared ahead of the phase that reads them. Keep this list short.
 RESERVED: dict[str, str] = {
-    "demo_mode": "API phase: gates the /demo endpoints (SR-08)",
     "log_level": "app phase: logging configuration",
-    "frontend_origin": "API phase: CORS origin",
 }
 
 # Removed in the Phase 4 reconciliation. They must not come back unnoticed.

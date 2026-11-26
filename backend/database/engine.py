@@ -140,6 +140,19 @@ def dispose_engine() -> None:
     _session_factory = None
 
 
+async def close_db_engine() -> None:
+    """
+    Dispose the engine and wait for its connections to close (application shutdown).
+
+    Unlike dispose_engine(), this awaits the disposal instead of scheduling it, so
+    no task is left behind when the event loop stops.
+    """
+    global _engine, _session_factory
+    engine, _engine, _session_factory = _engine, None, None
+    if engine is not None:
+        await engine.dispose()
+
+
 def _mask_url(url: str) -> str:
     """Remove password from a database URL for safe logging."""
     # Simple mask: replace everything between :// and @ with [masked].

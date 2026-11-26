@@ -46,6 +46,7 @@ dist/
 build/
 .eggs/
 .venv/
+.vennv/
 venv/
 env/
 ENV/
@@ -73,6 +74,9 @@ junit*.xml
 *.db
 *.db-shm
 *.db-wal
+*.db-journal
+# Demo-session archives written by POST /api/v1/demo/reset (local data, never committed)
+*-demo-sessions/
 *.sqlite
 *.sqlite3
 

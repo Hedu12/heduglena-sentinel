@@ -94,7 +94,14 @@ async def run_migrations_online() -> None:
     await connectable.dispose()
 
 
-if context.is_offline_mode():
+# Programmatic use (database/bootstrap.py): the application passes its own open
+# connection, the Alembic "sharing a connection" pattern, so migrations run on
+# the application's database inside its event loop. The CLI path is unchanged.
+_shared_connection = config.attributes.get("connection")
+
+if _shared_connection is not None:
+    do_run_migrations(_shared_connection)
+elif context.is_offline_mode():
     run_migrations_offline()
 else:
     asyncio.run(run_migrations_online())
