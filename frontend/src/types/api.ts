@@ -73,14 +73,13 @@ export interface DetectionEvent {
   rule_name: string;
   severity: Severity;
   metric_key: string;
-  metric_value: number;
+  metric_value: number | null;
   threshold_value: number | null;
   is_synthetic: boolean;
   event_type: string;
   classification: Classification;
   confidence: number | null; // 0.0-1.0; null = not assessed
-  status: "open";
-  telemetry_sample_id: number | null; // null for synthetic events
+  status: string;
 }
 
 // ── Threat Score ──────────────────────────────────────────────────────────────
@@ -95,8 +94,8 @@ export interface ThreatScoreReading {
 
 export interface DefenseStateReading {
   current_state: DefenseState;
-  since: string;
-  threat_score_at_transition: number;
+  since: string | null; // null: no transition recorded yet (RELAXED since install)
+  threat_score_at_transition: number | null;
 }
 
 export interface DefenseStateChange {
@@ -115,11 +114,10 @@ export interface ActionRecord {
   action_type: ActionType;
   is_simulated: boolean;
   defense_state: DefenseState;
-  triggering_event_id: number | null;
   result: string | null;
   dry_run_description: string;
-  // Phase 5 response engine. null on records written before Phase 5.
-  situation_id: number | null;
+  // The public incident identifier ("SIT-n"); internal ids are not exposed.
+  incident_id: string | null;
   status: ActionStatus | null;
   action_class: ActionClass | null;
   guard_reason: string | null;
@@ -297,25 +295,90 @@ export interface AIStatus {
 
 // ── Demo Endpoints ────────────────────────────────────────────────────────────
 
+// Demo routes answer 403 when DEMO_MODE=false and 429 when rate-limited.
+// Only security synthetic types can be injected (others are refused with 422).
+export type SecuritySyntheticEventType =
+  | "auth_failure"
+  | "access_denied"
+  | "connection_burst"
+  | "suspicious_process";
+
 export interface InjectEventRequest {
-  event_type: SyntheticEventType;
-  count?: number;
+  event_type: SecuritySyntheticEventType;
+  count?: number; // 1-20, default 1
 }
 
 export interface InjectEventResponse {
   injected: number;
-  event_ids: number[];
+  event_ids: number[]; // detection events produced (thresholds may need several injections)
 }
 
+export type ScenarioName = "normal" | "suspicious" | "critical";
+
+export interface ScenarioInfo {
+  name: ScenarioName;
+  description: string;
+  synthetic_events: number;
+}
+
+// POST /api/v1/demo/scenario/{name}: 202, 404 unknown, 409 one already running.
 export interface ScenarioResponse {
-  scenario: string;
+  scenario: ScenarioName;
   status: "started";
   message: string;
 }
 
+// POST /api/v1/demo/reset (DEMO OPERATION): takes no input of any kind (a body or
+// query string is refused with 422). It archives the current demo session intact and
+// starts a new one from empty history; `defense_state` is what the new session's own
+// runtime restored, never a value chosen by the client. 409 when unavailable or busy.
 export interface ResetResponse {
   status: "reset";
+  archived_session: string; // a label, never a filesystem path
   defense_state: DefenseState;
+  message: string;
+}
+
+// ── Runtime (GET /api/v1/runtime) ─────────────────────────────────────────────
+
+export interface DemoRun {
+  name: ScenarioName;
+  status: "running" | "completed" | "failed" | "cancelled";
+  started_at: string;
+  finished_at: string | null;
+  events_injected: number;
+  detections: number;
+}
+
+export interface RuntimeStatus {
+  monitoring: boolean;
+  healthy: boolean;
+  started_at: string | null;
+  poll_interval_seconds: number;
+  defense_state: DefenseState;
+  threat_score: number | null;
+  last_decision_at: string | null;
+  cycles: number;
+  failed_cycles: number;
+  consecutive_failures: number;
+  telemetry_failures: number;
+  last_cycle_at: string | null;
+  last_cycle_ms: number | null;
+  max_cycle_ms: number | null;
+  last_telemetry_ms: number | null;
+  last_detection_ms: number | null;
+  last_decision_ms: number | null;
+  detections: number;
+  decisions: number;
+  actions_recorded: number;
+  synthetic_events: number;
+  events_per_minute: number | null;
+  last_error: string | null; // exception class name only
+  explanations_pending: number;
+  live_subscribers: number;
+  live_messages_dropped: number;
+  demo_running: ScenarioName | null;
+  last_demo_run: DemoRun | null;
 }
 
 // ── WebSocket live stream message ─────────────────────────────────────────────
@@ -327,8 +390,34 @@ export type LiveMessageType =
   | "defense_state_change"
   | "response_action";
 
+// WS /ws/live is receive-only; client messages are ignored. Payloads by type:
+//   telemetry            -> TelemetrySnapshot
+//   detection_event      -> DetectionEvent
+//   threat_score         -> LiveThreatScore
+//   defense_state_change -> LiveStateChange
+//   response_action      -> LiveResponseAction (fetch /api/v1/actions for the full record)
 export interface LiveMessage {
   type: LiveMessageType;
   timestamp: string;
   payload: unknown; // narrow by checking `type`
+}
+
+export interface LiveThreatScore {
+  calculated_at: string;
+  score: number;
+  defense_state: DefenseState;
+}
+
+export interface LiveStateChange {
+  changed_at: string;
+  previous_state: DefenseState;
+  new_state: DefenseState;
+  trigger_score: number;
+}
+
+export interface LiveResponseAction {
+  id: number;
+  action_type: ActionType;
+  status: ActionStatus | null;
+  incident_id: string | null;
 }

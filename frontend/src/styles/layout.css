@@ -1,0 +1,96 @@
+/* Page layout: a 12-column grid that collapses for laptop and tablet widths. */
+.app {
+  max-width: 1880px;
+  margin: 0 auto;
+  padding: 16px 20px 28px;
+}
+
+.app__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-bottom: 14px;
+  margin-bottom: var(--gap);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand__mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 46% 54% / 58% 52% 48% 42%;
+  background: radial-gradient(circle at 36% 38%, #b6f5e6 0 9%, var(--accent) 10% 44%, #1f6f60 70%);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.brand__name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.brand__tagline {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap);
+  outline: none;
+}
+.grid > div {
+  min-width: 0;
+  display: flex;
+}
+.grid > div > .panel {
+  flex: 1;
+}
+.grid__hero {
+  grid-column: span 8;
+}
+.grid__demo {
+  grid-column: span 4;
+}
+.grid__wide {
+  grid-column: span 12;
+}
+.grid__half {
+  grid-column: span 6;
+}
+.grid__two-thirds {
+  grid-column: span 8;
+}
+.grid__third {
+  grid-column: span 4;
+}
+
+.app__footer {
+  margin-top: 20px;
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+@media (max-width: 1180px) {
+  .grid__hero,
+  .grid__demo,
+  .grid__two-thirds,
+  .grid__third {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 860px) {
+  .grid__half {
+    grid-column: span 12;
+  }
+  .app {
+    padding: 12px;
+  }
+}

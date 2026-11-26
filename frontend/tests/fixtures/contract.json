@@ -1,0 +1,790 @@
+{
+  "_note": "Recorded from the real backend by scripts/export_contract_fixture.py. Do not edit by hand; regenerate instead.",
+  "critical": {
+    "actions": {
+      "body": [
+        {
+          "action_class": "SIMULATED_PROTECTIVE",
+          "action_type": "SIMULATE_QUARANTINE",
+          "defense_state": "AGGRESSIVE",
+          "dry_run_description": "Would quarantine the resource implicated in the evidence for situation 1. Simulation only.",
+          "executed_at": "2026-11-20T12:00:16",
+          "guard_reason": "Authorized",
+          "id": 10,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "simulated: no host change made",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "MONITORING",
+          "action_type": "INCREASE_MONITORING",
+          "defense_state": "AGGRESSIVE",
+          "dry_run_description": "Halve the telemetry polling interval while in AGGRESSIVE (situation 1). Simulation only: the interval is not changed.",
+          "executed_at": "2026-11-20T12:00:16",
+          "guard_reason": "Authorized",
+          "id": 9,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "simulated: monitoring increase recommended",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "INFORMATIONAL",
+          "action_type": "GENERATE_ALERT",
+          "defense_state": "AGGRESSIVE",
+          "dry_run_description": "Raise an operator alert: defense state AGGRESSIVE, threat score 0.87, situation 1.",
+          "executed_at": "2026-11-20T12:00:16",
+          "guard_reason": "Authorized",
+          "id": 8,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "alert recorded",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "SIMULATED_PROTECTIVE",
+          "action_type": "SIMULATE_PROCESS_ISOLATE",
+          "defense_state": "DEFENSIVE",
+          "dry_run_description": "Would suspend and isolate the process implicated in the evidence for situation 1. Simulation only.",
+          "executed_at": "2026-11-20T12:00:15",
+          "guard_reason": "Authorized",
+          "id": 7,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "simulated: no host change made",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "SIMULATED_PROTECTIVE",
+          "action_type": "SIMULATE_IP_BLOCK",
+          "defense_state": "DEFENSIVE",
+          "dry_run_description": "Would block inbound traffic from the source implicated in the evidence for situation 1. Simulation only.",
+          "executed_at": "2026-11-20T12:00:15",
+          "guard_reason": "Authorized",
+          "id": 6,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "simulated: no host change made",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "MONITORING",
+          "action_type": "INCREASE_MONITORING",
+          "defense_state": "DEFENSIVE",
+          "dry_run_description": "Halve the telemetry polling interval while in DEFENSIVE (situation 1). Simulation only: the interval is not changed.",
+          "executed_at": "2026-11-20T12:00:15",
+          "guard_reason": "Authorized",
+          "id": 5,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "simulated: monitoring increase recommended",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "INFORMATIONAL",
+          "action_type": "GENERATE_ALERT",
+          "defense_state": "DEFENSIVE",
+          "dry_run_description": "Raise an operator alert: defense state DEFENSIVE, threat score 0.71, situation 1.",
+          "executed_at": "2026-11-20T12:00:15",
+          "guard_reason": "Authorized",
+          "id": 4,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "alert recorded",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "MONITORING",
+          "action_type": "RECORD_INCIDENT",
+          "defense_state": "ALERT",
+          "dry_run_description": "Open incident SIT-1 for situation 1.",
+          "executed_at": "2026-11-20T12:00:10",
+          "guard_reason": "Authorized",
+          "id": 3,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "incident SIT-1 recorded",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "MONITORING",
+          "action_type": "INCREASE_MONITORING",
+          "defense_state": "ALERT",
+          "dry_run_description": "Halve the telemetry polling interval while in ALERT (situation 1). Simulation only: the interval is not changed.",
+          "executed_at": "2026-11-20T12:00:10",
+          "guard_reason": "Authorized",
+          "id": 2,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "simulated: monitoring increase recommended",
+          "status": "SUCCEEDED"
+        },
+        {
+          "action_class": "INFORMATIONAL",
+          "action_type": "GENERATE_ALERT",
+          "defense_state": "ALERT",
+          "dry_run_description": "Raise an operator alert: defense state ALERT, threat score 0.37, situation 1.",
+          "executed_at": "2026-11-20T12:00:10",
+          "guard_reason": "Authorized",
+          "id": 1,
+          "incident_id": "SIT-1",
+          "is_simulated": true,
+          "result": "alert recorded",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "status": 200
+    },
+    "ai_status": {
+      "body": {
+        "explanation_only": true,
+        "language_model_configured": false,
+        "provider": "null"
+      },
+      "status": 200
+    },
+    "events": {
+      "body": [
+        {
+          "classification": "HIGH_CONFIDENCE",
+          "confidence": 0.95,
+          "detected_at": "2026-11-20T12:00:16",
+          "event_type": "suspicious_process",
+          "id": 3,
+          "is_synthetic": true,
+          "metric_key": "synthetic:suspicious_process",
+          "metric_value": 1.0,
+          "rule_id": "DET-SYN-001",
+          "rule_name": "Synthetic security event",
+          "severity": "CRITICAL",
+          "status": "open",
+          "threshold_value": 1.0
+        },
+        {
+          "classification": "HIGH_CONFIDENCE",
+          "confidence": 0.9,
+          "detected_at": "2026-11-20T12:00:15",
+          "event_type": "auth_failure_burst",
+          "id": 2,
+          "is_synthetic": true,
+          "metric_key": "synthetic:auth_failure",
+          "metric_value": 10.0,
+          "rule_id": "DET-SYN-001",
+          "rule_name": "Synthetic security event",
+          "severity": "CRITICAL",
+          "status": "open",
+          "threshold_value": 5.0
+        },
+        {
+          "classification": "SUSPICIOUS",
+          "confidence": 0.55,
+          "detected_at": "2026-11-20T12:00:10",
+          "event_type": "auth_failure_burst",
+          "id": 1,
+          "is_synthetic": true,
+          "metric_key": "synthetic:auth_failure",
+          "metric_value": 5.0,
+          "rule_id": "DET-SYN-001",
+          "rule_name": "Synthetic security event",
+          "severity": "HIGH",
+          "status": "open",
+          "threshold_value": 5.0
+        }
+      ],
+      "status": 200
+    },
+    "explanation": {
+      "body": {
+        "availability": "AVAILABLE",
+        "explanation": {
+          "content": {
+            "confidence": "MEDIUM",
+            "current_state": "Defense state AGGRESSIVE (previously DEFENSIVE), threat score 0.87, incident open.",
+            "evidence": [
+              "CRITICAL suspicious_process (HIGH_CONFIDENCE): synthetic:suspicious_process observed 1, threshold 1, seen 1 time(s)",
+              "CRITICAL auth_failure_burst (HIGH_CONFIDENCE): synthetic:auth_failure observed 10, threshold 5, seen 2 time(s)"
+            ],
+            "recommended_human_attention": "Review the listed evidence and the simulated responses (INCREASE_MONITORING SUCCEEDED, SIMULATE_IP_BLOCK SUCCEEDED, SIMULATE_PROCESS_ISOLATE SUCCEEDED, GENERATE_ALERT SUCCEEDED, INCREASE_MONITORING SUCCEEDED, SIMULATE_QUARANTINE SUCCEEDED). Every response was a simulation; no host was modified.",
+            "summary": "Incident SIT-1 is open; Sentinel is in AGGRESSIVE with threat score 0.87.",
+            "what_happened": "Defense state transitions: RELAXED to ALERT at 2026-11-20T12:00:10+00:00 (score 0.37); ALERT to DEFENSIVE at 2026-11-20T12:00:15+00:00 (score 0.71); DEFENSIVE to AGGRESSIVE at 2026-11-20T12:00:16+00:00 (score 0.87).",
+            "why_it_matters": "Sentinel's reasons: critical-severity detection event is active; high-severity detection event is active; high-confidence evidence of a security-relevant event; suspicious activity detected; synthetic security event (demonstration); repeated activity from the same signal; activity escalated to higher severity or confidence; multiple independent signal categories are active; older evidence is losing weight; severe escalation skipped the dwell time."
+          },
+          "failure_reason": null,
+          "generated_at": "2026-11-20T12:00:18Z",
+          "latency_ms": 0,
+          "model": "deterministic-template",
+          "provider": "null",
+          "status": "VALID",
+          "trigger": "STATE_TRANSITION"
+        },
+        "fallback_text": "AI explanation unavailable; authoritative reason codes and threat evidence remain available. Manual analyst review required. Incident ID: SIT-1. Defense state: ALERT. Threat score: 0.37.",
+        "incident_id": "SIT-1",
+        "latest_attempt": {
+          "content": {
+            "confidence": "MEDIUM",
+            "current_state": "Defense state AGGRESSIVE (previously DEFENSIVE), threat score 0.87, incident open.",
+            "evidence": [
+              "CRITICAL suspicious_process (HIGH_CONFIDENCE): synthetic:suspicious_process observed 1, threshold 1, seen 1 time(s)",
+              "CRITICAL auth_failure_burst (HIGH_CONFIDENCE): synthetic:auth_failure observed 10, threshold 5, seen 2 time(s)"
+            ],
+            "recommended_human_attention": "Review the listed evidence and the simulated responses (INCREASE_MONITORING SUCCEEDED, SIMULATE_IP_BLOCK SUCCEEDED, SIMULATE_PROCESS_ISOLATE SUCCEEDED, GENERATE_ALERT SUCCEEDED, INCREASE_MONITORING SUCCEEDED, SIMULATE_QUARANTINE SUCCEEDED). Every response was a simulation; no host was modified.",
+            "summary": "Incident SIT-1 is open; Sentinel is in AGGRESSIVE with threat score 0.87.",
+            "what_happened": "Defense state transitions: RELAXED to ALERT at 2026-11-20T12:00:10+00:00 (score 0.37); ALERT to DEFENSIVE at 2026-11-20T12:00:15+00:00 (score 0.71); DEFENSIVE to AGGRESSIVE at 2026-11-20T12:00:16+00:00 (score 0.87).",
+            "why_it_matters": "Sentinel's reasons: critical-severity detection event is active; high-severity detection event is active; high-confidence evidence of a security-relevant event; suspicious activity detected; synthetic security event (demonstration); repeated activity from the same signal; activity escalated to higher severity or confidence; multiple independent signal categories are active; older evidence is losing weight; severe escalation skipped the dwell time."
+          },
+          "failure_reason": null,
+          "generated_at": "2026-11-20T12:00:18Z",
+          "latency_ms": 0,
+          "model": "deterministic-template",
+          "provider": "null",
+          "status": "VALID",
+          "trigger": "STATE_TRANSITION"
+        }
+      },
+      "status": 200
+    },
+    "health": {
+      "body": {
+        "service": "sentinel",
+        "status": "ok",
+        "version": "0.1.0"
+      },
+      "status": 200
+    },
+    "incident": {
+      "body": {
+        "ai": {
+          "availability": "AVAILABLE",
+          "explanation": {
+            "content": {
+              "confidence": "MEDIUM",
+              "current_state": "Defense state AGGRESSIVE (previously DEFENSIVE), threat score 0.87, incident open.",
+              "evidence": [
+                "CRITICAL suspicious_process (HIGH_CONFIDENCE): synthetic:suspicious_process observed 1, threshold 1, seen 1 time(s)",
+                "CRITICAL auth_failure_burst (HIGH_CONFIDENCE): synthetic:auth_failure observed 10, threshold 5, seen 2 time(s)"
+              ],
+              "recommended_human_attention": "Review the listed evidence and the simulated responses (INCREASE_MONITORING SUCCEEDED, SIMULATE_IP_BLOCK SUCCEEDED, SIMULATE_PROCESS_ISOLATE SUCCEEDED, GENERATE_ALERT SUCCEEDED, INCREASE_MONITORING SUCCEEDED, SIMULATE_QUARANTINE SUCCEEDED). Every response was a simulation; no host was modified.",
+              "summary": "Incident SIT-1 is open; Sentinel is in AGGRESSIVE with threat score 0.87.",
+              "what_happened": "Defense state transitions: RELAXED to ALERT at 2026-11-20T12:00:10+00:00 (score 0.37); ALERT to DEFENSIVE at 2026-11-20T12:00:15+00:00 (score 0.71); DEFENSIVE to AGGRESSIVE at 2026-11-20T12:00:16+00:00 (score 0.87).",
+              "why_it_matters": "Sentinel's reasons: critical-severity detection event is active; high-severity detection event is active; high-confidence evidence of a security-relevant event; suspicious activity detected; synthetic security event (demonstration); repeated activity from the same signal; activity escalated to higher severity or confidence; multiple independent signal categories are active; older evidence is losing weight; severe escalation skipped the dwell time."
+            },
+            "failure_reason": null,
+            "generated_at": "2026-11-20T12:00:18Z",
+            "latency_ms": 0,
+            "model": "deterministic-template",
+            "provider": "null",
+            "status": "VALID",
+            "trigger": "STATE_TRANSITION"
+          },
+          "fallback_text": "AI explanation unavailable; authoritative reason codes and threat evidence remain available. Manual analyst review required. Incident ID: SIT-1. Defense state: ALERT. Threat score: 0.37.",
+          "incident_id": "SIT-1",
+          "latest_attempt": {
+            "content": {
+              "confidence": "MEDIUM",
+              "current_state": "Defense state AGGRESSIVE (previously DEFENSIVE), threat score 0.87, incident open.",
+              "evidence": [
+                "CRITICAL suspicious_process (HIGH_CONFIDENCE): synthetic:suspicious_process observed 1, threshold 1, seen 1 time(s)",
+                "CRITICAL auth_failure_burst (HIGH_CONFIDENCE): synthetic:auth_failure observed 10, threshold 5, seen 2 time(s)"
+              ],
+              "recommended_human_attention": "Review the listed evidence and the simulated responses (INCREASE_MONITORING SUCCEEDED, SIMULATE_IP_BLOCK SUCCEEDED, SIMULATE_PROCESS_ISOLATE SUCCEEDED, GENERATE_ALERT SUCCEEDED, INCREASE_MONITORING SUCCEEDED, SIMULATE_QUARANTINE SUCCEEDED). Every response was a simulation; no host was modified.",
+              "summary": "Incident SIT-1 is open; Sentinel is in AGGRESSIVE with threat score 0.87.",
+              "what_happened": "Defense state transitions: RELAXED to ALERT at 2026-11-20T12:00:10+00:00 (score 0.37); ALERT to DEFENSIVE at 2026-11-20T12:00:15+00:00 (score 0.71); DEFENSIVE to AGGRESSIVE at 2026-11-20T12:00:16+00:00 (score 0.87).",
+              "why_it_matters": "Sentinel's reasons: critical-severity detection event is active; high-severity detection event is active; high-confidence evidence of a security-relevant event; suspicious activity detected; synthetic security event (demonstration); repeated activity from the same signal; activity escalated to higher severity or confidence; multiple independent signal categories are active; older evidence is losing weight; severe escalation skipped the dwell time."
+            },
+            "failure_reason": null,
+            "generated_at": "2026-11-20T12:00:18Z",
+            "latency_ms": 0,
+            "model": "deterministic-template",
+            "provider": "null",
+            "status": "VALID",
+            "trigger": "STATE_TRANSITION"
+          }
+        },
+        "current_score": {
+          "active_categories": [
+            "AUTHENTICATION",
+            "EXECUTION"
+          ],
+          "calculated_at": "2026-11-20T12:00:20Z",
+          "confidence": 0.136065,
+          "correlation": 0.141581,
+          "cross_domain": 0.0,
+          "decay": 0.042379,
+          "defense_state": "AGGRESSIVE",
+          "escalation": 0.094387,
+          "reasons": [
+            {
+              "code": "CRITICAL_EVENT",
+              "description": "critical-severity detection event is active"
+            },
+            {
+              "code": "HIGH_SEVERITY_EVENT",
+              "description": "high-severity detection event is active"
+            },
+            {
+              "code": "HIGH_CONFIDENCE_EVIDENCE",
+              "description": "high-confidence evidence of a security-relevant event"
+            },
+            {
+              "code": "SUSPICIOUS_ACTIVITY",
+              "description": "suspicious activity detected"
+            },
+            {
+              "code": "SYNTHETIC_SECURITY_EVENT",
+              "description": "synthetic security event (demonstration)"
+            },
+            {
+              "code": "REPEATED_ACTIVITY",
+              "description": "repeated activity from the same signal"
+            },
+            {
+              "code": "ESCALATING_ACTIVITY",
+              "description": "activity escalated to higher severity or confidence"
+            },
+            {
+              "code": "CROSS_SIGNAL_CORRELATION",
+              "description": "multiple independent signal categories are active"
+            },
+            {
+              "code": "EVIDENCE_DECAYING",
+              "description": "older evidence is losing weight"
+            }
+          ],
+          "repetition": 0.026756,
+          "score": 0.828468,
+          "severity": 0.429679
+        },
+        "evidence": [
+          {
+            "classification": "HIGH_CONFIDENCE",
+            "confidence": 0.95,
+            "detected_at": "2026-11-20T12:00:16Z",
+            "event_type": "suspicious_process",
+            "is_synthetic": true,
+            "metric_key": "synthetic:suspicious_process",
+            "metric_value": 1.0,
+            "rule_name": "Synthetic security event",
+            "severity": "CRITICAL",
+            "threshold_value": 1.0
+          },
+          {
+            "classification": "HIGH_CONFIDENCE",
+            "confidence": 0.9,
+            "detected_at": "2026-11-20T12:00:15Z",
+            "event_type": "auth_failure_burst",
+            "is_synthetic": true,
+            "metric_key": "synthetic:auth_failure",
+            "metric_value": 10.0,
+            "rule_name": "Synthetic security event",
+            "severity": "CRITICAL",
+            "threshold_value": 5.0
+          },
+          {
+            "classification": "SUSPICIOUS",
+            "confidence": 0.55,
+            "detected_at": "2026-11-20T12:00:10Z",
+            "event_type": "auth_failure_burst",
+            "is_synthetic": true,
+            "metric_key": "synthetic:auth_failure",
+            "metric_value": 5.0,
+            "rule_name": "Synthetic security event",
+            "severity": "HIGH",
+            "threshold_value": 5.0
+          }
+        ],
+        "incident": {
+          "created_at": "2026-11-20T12:00:10Z",
+          "defense_state_at_creation": "ALERT",
+          "incident_id": "SIT-1",
+          "recovered_at": null,
+          "resolution": null,
+          "resolved_at": null,
+          "status": "open",
+          "summary": "high-severity detection event is active; suspicious activity detected; synthetic security event (demonstration); severe escalation skipped the dwell time",
+          "threat_score_at_creation": 0.37275
+        },
+        "simulations": [
+          {
+            "action_type": "GENERATE_ALERT",
+            "defense_state": "ALERT",
+            "dry_run_description": "Raise an operator alert: defense state ALERT, threat score 0.37, situation 1.",
+            "executed_at": "2026-11-20T12:00:10Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_ALERT_OPERATOR",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "INCREASE_MONITORING",
+            "defense_state": "ALERT",
+            "dry_run_description": "Halve the telemetry polling interval while in ALERT (situation 1). Simulation only: the interval is not changed.",
+            "executed_at": "2026-11-20T12:00:10Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_INCREASE_MONITORING",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "RECORD_INCIDENT",
+            "defense_state": "ALERT",
+            "dry_run_description": "Open incident SIT-1 for situation 1.",
+            "executed_at": "2026-11-20T12:00:10Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "INCIDENT_RECORDED",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "GENERATE_ALERT",
+            "defense_state": "DEFENSIVE",
+            "dry_run_description": "Raise an operator alert: defense state DEFENSIVE, threat score 0.71, situation 1.",
+            "executed_at": "2026-11-20T12:00:15Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_ALERT_OPERATOR",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "INCREASE_MONITORING",
+            "defense_state": "DEFENSIVE",
+            "dry_run_description": "Halve the telemetry polling interval while in DEFENSIVE (situation 1). Simulation only: the interval is not changed.",
+            "executed_at": "2026-11-20T12:00:15Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_INCREASE_MONITORING",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "SIMULATE_IP_BLOCK",
+            "defense_state": "DEFENSIVE",
+            "dry_run_description": "Would block inbound traffic from the source implicated in the evidence for situation 1. Simulation only.",
+            "executed_at": "2026-11-20T12:00:15Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_BLOCK_SOURCE",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "SIMULATE_PROCESS_ISOLATE",
+            "defense_state": "DEFENSIVE",
+            "dry_run_description": "Would suspend and isolate the process implicated in the evidence for situation 1. Simulation only.",
+            "executed_at": "2026-11-20T12:00:15Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_CONTAIN_PROCESS",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "GENERATE_ALERT",
+            "defense_state": "AGGRESSIVE",
+            "dry_run_description": "Raise an operator alert: defense state AGGRESSIVE, threat score 0.87, situation 1.",
+            "executed_at": "2026-11-20T12:00:16Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_ALERT_OPERATOR",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "INCREASE_MONITORING",
+            "defense_state": "AGGRESSIVE",
+            "dry_run_description": "Halve the telemetry polling interval while in AGGRESSIVE (situation 1). Simulation only: the interval is not changed.",
+            "executed_at": "2026-11-20T12:00:16Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_INCREASE_MONITORING",
+            "status": "SUCCEEDED"
+          },
+          {
+            "action_type": "SIMULATE_QUARANTINE",
+            "defense_state": "AGGRESSIVE",
+            "dry_run_description": "Would quarantine the resource implicated in the evidence for situation 1. Simulation only.",
+            "executed_at": "2026-11-20T12:00:16Z",
+            "guard_reason": "Authorized",
+            "guard_verdict": "AUTHORIZED",
+            "is_simulated": true,
+            "simulation_outcome": "WOULD_QUARANTINE",
+            "status": "SUCCEEDED"
+          }
+        ],
+        "transitions": [
+          {
+            "changed_at": "2026-11-20T12:00:10Z",
+            "from_state": "RELAXED",
+            "reason": {
+              "code": "SEVERE_ESCALATION_BYPASS",
+              "description": "severe escalation skipped the dwell time"
+            },
+            "to_state": "ALERT",
+            "trigger_score": 0.37275
+          },
+          {
+            "changed_at": "2026-11-20T12:00:15Z",
+            "from_state": "ALERT",
+            "reason": {
+              "code": "SEVERE_ESCALATION_BYPASS",
+              "description": "severe escalation skipped the dwell time"
+            },
+            "to_state": "DEFENSIVE",
+            "trigger_score": 0.713347
+          },
+          {
+            "changed_at": "2026-11-20T12:00:16Z",
+            "from_state": "DEFENSIVE",
+            "reason": {
+              "code": "SEVERE_ESCALATION_BYPASS",
+              "description": "severe escalation skipped the dwell time"
+            },
+            "to_state": "AGGRESSIVE",
+            "trigger_score": 0.867649
+          }
+        ]
+      },
+      "status": 200
+    },
+    "incidents": {
+      "body": [
+        {
+          "created_at": "2026-11-20T12:00:10Z",
+          "defense_state_at_creation": "ALERT",
+          "incident_id": "SIT-1",
+          "recovered_at": null,
+          "resolution": null,
+          "resolved_at": null,
+          "status": "open",
+          "summary": "high-severity detection event is active; suspicious activity detected; synthetic security event (demonstration); severe escalation skipped the dwell time",
+          "threat_score_at_creation": 0.37275
+        }
+      ],
+      "status": 200
+    },
+    "runtime": {
+      "body": {
+        "actions_recorded": 10,
+        "consecutive_failures": 0,
+        "cycles": 6,
+        "decisions": 17,
+        "defense_state": "AGGRESSIVE",
+        "demo_running": null,
+        "detections": 3,
+        "events_per_minute": 9.0,
+        "explanations_pending": 0,
+        "failed_cycles": 0,
+        "healthy": true,
+        "last_cycle_at": "2026-11-20T12:00:20Z",
+        "last_cycle_ms": 138.7125999899581,
+        "last_decision_at": "2026-11-20T12:00:20Z",
+        "last_decision_ms": 84.30989999033045,
+        "last_demo_run": {
+          "detections": 3,
+          "events_injected": 11,
+          "finished_at": "2026-11-20T12:00:16Z",
+          "name": "critical",
+          "started_at": "2026-11-20T12:00:06Z",
+          "status": "completed"
+        },
+        "last_detection_ms": 0.07059999916236848,
+        "last_error": null,
+        "last_telemetry_ms": 54.33210000046529,
+        "live_messages_dropped": 0,
+        "live_subscribers": 0,
+        "max_cycle_ms": 140.99780000105966,
+        "monitoring": true,
+        "poll_interval_seconds": 60.0,
+        "started_at": "2026-11-20T12:00:00Z",
+        "synthetic_events": 11,
+        "telemetry_failures": 0,
+        "threat_score": 0.828468
+      },
+      "status": 200
+    },
+    "scenarios": {
+      "body": [
+        {
+          "description": "No synthetic events: Sentinel keeps monitoring real telemetry and stays RELAXED unless the host itself is under pressure.",
+          "name": "normal",
+          "synthetic_events": 0
+        },
+        {
+          "description": "A burst of failed logins: detection, a raised threat score and simulated responses. Suspicious normally reaches ALERT or DEFENSIVE. It may reach AGGRESSIVE when a real host signal corroborates the synthetic attack.",
+          "name": "suspicious",
+          "synthetic_events": 10
+        },
+        {
+          "description": "Repeated failed logins corroborated by a simulated malicious process: escalation toward AGGRESSIVE, guarded simulated responses, an incident and an explanation.",
+          "name": "critical",
+          "synthetic_events": 11
+        }
+      ],
+      "status": 200
+    },
+    "score": {
+      "body": {
+        "calculated_at": "2026-11-20T12:00:20",
+        "id": 7,
+        "score": 0.828468
+      },
+      "status": 200
+    },
+    "state": {
+      "body": {
+        "current_state": "AGGRESSIVE",
+        "since": "2026-11-20T12:00:16",
+        "threat_score_at_transition": 0.867649
+      },
+      "status": 200
+    },
+    "status": {
+      "body": {
+        "defense_state": "AGGRESSIVE",
+        "threat_score": 0.828468,
+        "timestamp": "2026-11-20T12:00:20Z"
+      },
+      "status": 200
+    },
+    "telemetry": {
+      "body": {
+        "collected_at": "2026-11-26T08:34:46.235742",
+        "cpu_percent": 20.0,
+        "disk_read_rate": null,
+        "disk_write_rate": null,
+        "id": 1,
+        "memory_percent": 40.0,
+        "net_bytes_recv": null,
+        "net_bytes_sent": null,
+        "process_count": 100
+      },
+      "status": 200
+    }
+  },
+  "relaxed": {
+    "actions": {
+      "body": [],
+      "status": 200
+    },
+    "ai_status": {
+      "body": {
+        "explanation_only": true,
+        "language_model_configured": false,
+        "provider": "null"
+      },
+      "status": 200
+    },
+    "events": {
+      "body": [],
+      "status": 200
+    },
+    "health": {
+      "body": {
+        "service": "sentinel",
+        "status": "ok",
+        "version": "0.1.0"
+      },
+      "status": 200
+    },
+    "incidents": {
+      "body": [],
+      "status": 200
+    },
+    "runtime": {
+      "body": {
+        "actions_recorded": 0,
+        "consecutive_failures": 0,
+        "cycles": 4,
+        "decisions": 4,
+        "defense_state": "RELAXED",
+        "demo_running": null,
+        "detections": 0,
+        "events_per_minute": 0.0,
+        "explanations_pending": 0,
+        "failed_cycles": 0,
+        "healthy": true,
+        "last_cycle_at": "2026-11-20T12:00:06Z",
+        "last_cycle_ms": 22.29250001255423,
+        "last_decision_at": "2026-11-20T12:00:06Z",
+        "last_decision_ms": 0.23890000011306256,
+        "last_demo_run": null,
+        "last_detection_ms": 0.06580000626854599,
+        "last_error": null,
+        "last_telemetry_ms": 21.98780000617262,
+        "live_messages_dropped": 0,
+        "live_subscribers": 0,
+        "max_cycle_ms": 81.21879999816883,
+        "monitoring": true,
+        "poll_interval_seconds": 60.0,
+        "started_at": "2026-11-20T12:00:00Z",
+        "synthetic_events": 0,
+        "telemetry_failures": 0,
+        "threat_score": 0.0
+      },
+      "status": 200
+    },
+    "scenarios": {
+      "body": [
+        {
+          "description": "No synthetic events: Sentinel keeps monitoring real telemetry and stays RELAXED unless the host itself is under pressure.",
+          "name": "normal",
+          "synthetic_events": 0
+        },
+        {
+          "description": "A burst of failed logins: detection, a raised threat score and simulated responses. Suspicious normally reaches ALERT or DEFENSIVE. It may reach AGGRESSIVE when a real host signal corroborates the synthetic attack.",
+          "name": "suspicious",
+          "synthetic_events": 10
+        },
+        {
+          "description": "Repeated failed logins corroborated by a simulated malicious process: escalation toward AGGRESSIVE, guarded simulated responses, an incident and an explanation.",
+          "name": "critical",
+          "synthetic_events": 11
+        }
+      ],
+      "status": 200
+    },
+    "score": {
+      "body": {
+        "calculated_at": "2026-11-20T12:00:02",
+        "id": 1,
+        "score": 0.0
+      },
+      "status": 200
+    },
+    "state": {
+      "body": {
+        "current_state": "RELAXED",
+        "since": null,
+        "threat_score_at_transition": null
+      },
+      "status": 200
+    },
+    "status": {
+      "body": {
+        "defense_state": "RELAXED",
+        "threat_score": 0.0,
+        "timestamp": "2026-11-20T12:00:06Z"
+      },
+      "status": 200
+    },
+    "telemetry": {
+      "body": {
+        "collected_at": "2026-11-26T08:34:46.235742",
+        "cpu_percent": 20.0,
+        "disk_read_rate": null,
+        "disk_write_rate": null,
+        "id": 1,
+        "memory_percent": 40.0,
+        "net_bytes_recv": null,
+        "net_bytes_sent": null,
+        "process_count": 100
+      },
+      "status": 200
+    }
+  }
+}
