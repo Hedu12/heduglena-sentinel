@@ -10,6 +10,35 @@
 **Status:** working hackathon prototype, not a production security product. Every response
 action is **simulated**: nothing on the host is blocked, isolated, killed or deleted.
 
+## Built with Kiro
+
+Sentinel was built with [Kiro](https://kiro.dev). Everything Kiro used is committed in
+[`.kiro/`](.kiro/), so you can see how the project was specified and kept in bounds.
+
+- **Specs.** [`requirements.md`](.kiro/specs/heduglena-sentinel/requirements.md) holds 18
+  requirements written as EARS acceptance criteria.
+  [`design.md`](.kiro/specs/heduglena-sentinel/design.md) defines the pipeline, the security
+  boundaries and the protected modules, with their pinned SHA-256 hashes.
+  [`tasks.md`](.kiro/specs/heduglena-sentinel/tasks.md) is the phased implementation plan, with
+  its status and known gaps. Each phase was planned and checked against these files.
+- **Steering.** Five files in [`.kiro/steering/`](.kiro/steering/) apply to every request:
+  architecture principles, coding standards, security requirements, testing requirements and
+  AI safety. They set the rules the code follows: simulated-only actions behind
+  ResponseGuard, an explanation-only AI that cannot change a score, state or action, a
+  validated AI context (AS-02) and the coverage and type-checking targets.
+- **Hooks.** Five hook files in [`.kiro/hooks/`](.kiro/hooks/), all read-only. The checks
+  themselves live in [`scripts/hooks/check.py`](scripts/hooks/check.py).
+  - On save: `ruff` and `mypy --strict` for backend Python, ESLint for frontend TypeScript,
+    and `bandit -ll` for the security-sensitive packages.
+  - Agent reviews, report only: one after a spec or steering change, and one checking the
+    security boundary after edits to the response, AI, threat or core packages.
+  - A full quality gate (lint, types, unit and security tests, bandit, `tsc`) that runs when
+    the agent finishes a turn, after you confirm.
+- **Protected modules.** The scorer, state machine, ResponsePlanner, ResponseGuard, executor,
+  AI output validator and evaluation gates are pinned by hash in
+  `backend/tests/security/test_protected_files.py`. Changing one without approval fails the
+  tests.
+
 ## What it does
 
 ```
